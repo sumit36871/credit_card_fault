@@ -2,11 +2,11 @@ import pandas as pd
 import numpy as np
 import logging 
 import json
-from credit_card.config import astra_client
+from credit_card.config import mongo_client
 
 
 
-def dump_csv_file_to_astradb_collection(file_path:str,database_name:str,
+def dump_csv_file_to_mongodb_collection(file_path:str,database_name:str,
                                         collection_name:str)->None:
     
 
@@ -16,7 +16,7 @@ def dump_csv_file_to_astradb_collection(file_path:str,database_name:str,
         df.reset_index(drop=True,inplace=True)
         json_records=list(json.loads(df.T.to_json()).values())
 
-        astra_client[database_name][collection_name].insert_many(json_records)
+        mongo_client[database_name][collection_name].insert_many(json_records)
 
 
     except Exception as e:
